@@ -1,0 +1,106 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    background: linear-gradient(45deg, #ff4d4d, #ff9966, #ffcc66, #ffcc99);
+    background-size: 800% 800%;
+    animation: gradientAnimation 20s ease infinite;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#particleCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    color: #fff;
+    font-size: 2em;
+    animation: fadeIn 3s forwards;
+    max-width: 80%;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+h1, p {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+h1 span, p span {
+    opacity: 0;
+    display: inline-block;
+    animation: fadeIn 1s forwards;
+}
+
+h1 span {
+    animation-delay: calc(var(--char-index) * 0.1s);
+}
+
+p:nth-of-type(1) span {
+    animation-delay: calc(var(--char-index) * 0.1s + 3s);
+}
+
+p:nth-of-type(2) span {
+    animation-delay: calc(var(--char-index) * 0.1s + 6s);
+}
+
+p:nth-of-type(3) span {
+    animation-delay: calc(var(--char-index) * 0.1s + 9s);
+}
+
+p:nth-of-type(4) span {
+    animation-delay: calc(var(--char-index) * 0.1s + 12s);
+}
+
+p:nth-of-type(5) span {
+    animation-delay: calc(var(--char-index) * 0.1s + 15s);
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: transparent url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="white" /></svg>') repeat;
+    animation: moveStars 50s linear infinite;
+    opacity: 0.3;
+}
+
+@keyframes moveStars {
+    from { transform: translate(0, 0); }
+    to { transform: translate(-1000px, -1000px); }
+}
