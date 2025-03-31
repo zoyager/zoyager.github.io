@@ -5,8 +5,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="&#39;实训记录1&#39;, 计算机视觉、QRCODE">
-    <meta name="description" content="
-前言：SQL注入（SQL Injection）是一种常见的攻击手段，攻击者通过在输入字段中插入恶意SQL代码，来操控数据库，从而获取敏感信息、篡改数据，甚至摧毁数据库。本次实验包括数字型注入和字符型注入，是SQL注入攻击中最基础且最常见的">
+    <meta name="description" content="Web安全学习日志 - 第一天今日学习目标
+理解Web安全的核心概念与发展历程
+掌握漏洞分类及常见攻击类型
+了解网络安全行业的服务模式与攻防演练机制
+明确渗透测试工程师的职业路径
+
+一、Web安全基础概念1. Web安全的定义
+Web系统：">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -378,14 +384,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2025-03-27
+                    2025-03-31
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    746
+                    1.6k
                 </div>
                 
 
@@ -410,7 +416,103 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <ul>
+                <h1 id="Web安全学习日志-第一天"><a href="#Web安全学习日志-第一天" class="headerlink" title="Web安全学习日志 - 第一天"></a>Web安全学习日志 - 第一天</h1><h3 id="今日学习目标"><a href="#今日学习目标" class="headerlink" title="今日学习目标"></a><strong>今日学习目标</strong></h3><ol>
+<li>理解Web安全的核心概念与发展历程</li>
+<li>掌握漏洞分类及常见攻击类型</li>
+<li>了解网络安全行业的服务模式与攻防演练机制</li>
+<li>明确渗透测试工程师的职业路径</li>
+</ol>
+<h3 id="一、Web安全基础概念"><a href="#一、Web安全基础概念" class="headerlink" title="一、Web安全基础概念"></a><strong>一、Web安全基础概念</strong></h3><h4 id="1-Web安全的定义"><a href="#1-Web安全的定义" class="headerlink" title="1. Web安全的定义"></a><strong>1. Web安全的定义</strong></h4><ul>
+<li><strong>Web系统</strong>：由网页、小程序、客户端和服务器端组成的交互式系统。</li>
+<li><strong>核心目标</strong>：保护Web系统的机密性、完整性和可用性，防止未经授权的访问、数据泄露或服务中断。</li>
+</ul>
+<h4 id="2-Web安全的发展历程"><a href="#2-Web安全的发展历程" class="headerlink" title="2. Web安全的发展历程"></a><strong>2. Web安全的发展历程</strong></h4><table>
+<thead>
+<tr>
+<th>代际</th>
+<th>时间范围</th>
+<th>特点描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一代</td>
+<td>2000-2005年</td>
+<td>基础安全防护（如防火墙、杀毒软件）</td>
+</tr>
+<tr>
+<td>第二代</td>
+<td>2006-2010年</td>
+<td>漏洞平台兴起（乌云、吐司），社区驱动漏洞挖掘</td>
+</tr>
+<tr>
+<td>第三代</td>
+<td>2011-2015年</td>
+<td>企业级安全方案出现，攻防对抗常态化</td>
+</tr>
+<tr>
+<td>第四代</td>
+<td>2016年至今</td>
+<td>系统化培养机制形成，安全合规要求提升（如等保2.0）</td>
+</tr>
+</tbody></table>
+<h4 id="3-漏洞与Bug的区别"><a href="#3-漏洞与Bug的区别" class="headerlink" title="3. 漏洞与Bug的区别"></a><strong>3. 漏洞与Bug的区别</strong></h4><ul>
+<li><strong>漏洞</strong>：可被利用造成危害的缺陷（如SQL注入、XSS）。</li>
+<li><strong>Bug</strong>：程序设计过程中的逻辑错误（可能不直接导致安全风险）。</li>
+</ul>
+<h3 id="二、Web安全领域分支"><a href="#二、Web安全领域分支" class="headerlink" title="二、Web安全领域分支"></a><strong>二、Web安全领域分支</strong></h3><h4 id="1-客户端漏洞（前端）"><a href="#1-客户端漏洞（前端）" class="headerlink" title="1. 客户端漏洞（前端）"></a><strong>1. 客户端漏洞（前端）</strong></h4><ul>
+<li><strong>常见类型</strong>：XSS（跨站脚本）、CSRF（跨站请求伪造）、CORS配置错误。</li>
+</ul>
+<h4 id="2-服务端漏洞（后端）"><a href="#2-服务端漏洞（后端）" class="headerlink" title="2. 服务端漏洞（后端）"></a><strong>2. 服务端漏洞（后端）</strong></h4><ul>
+<li><strong>常见类型</strong>：SQL注入、文件上传漏洞、RCE（远程代码执行）、SSRF（服务器端请求伪造）。</li>
+</ul>
+<h4 id="3-业务逻辑漏洞"><a href="#3-业务逻辑漏洞" class="headerlink" title="3. 业务逻辑漏洞"></a><strong>3. 业务逻辑漏洞</strong></h4><ul>
+<li><strong>特点</strong>：依赖业务流程设计缺陷（如越权访问、支付逻辑漏洞）。</li>
+</ul>
+<h3 id="三、网络安全行业服务模式"><a href="#三、网络安全行业服务模式" class="headerlink" title="三、网络安全行业服务模式"></a><strong>三、网络安全行业服务模式</strong></h3><h4 id="1-企业安全防护"><a href="#1-企业安全防护" class="headerlink" title="1. 企业安全防护"></a><strong>1. 企业安全防护</strong></h4><ul>
+<li><strong>外包模式</strong>：聘请网安公司（如启明星辰、绿盟科技）提供安全服务。</li>
+<li><strong>自建部门</strong>：成立内部安全团队，负责产品与基础设施的防护。</li>
+</ul>
+<h4 id="2-攻防演练（护网行动）"><a href="#2-攻防演练（护网行动）" class="headerlink" title="2. 攻防演练（护网行动）"></a><strong>2. 攻防演练（护网行动）</strong></h4><ul>
+<li><strong>结构</strong>：<ul>
+<li><strong>红队</strong>（攻击队）：15-40家，模拟黑客攻击。</li>
+<li><strong>蓝队</strong>（防守队）：300-400个单位，防御攻击。</li>
+<li><strong>裁判组</strong>：公安部直属机构（如一所、三所）。</li>
+</ul>
+</li>
+<li><strong>类型</strong>：<ul>
+<li><strong>国家级</strong>：公安部护网（2周，常态化6个月）。</li>
+<li><strong>省级</strong>：磐石、深蓝等。</li>
+<li><strong>行业级</strong>：教育、医疗、金融等领域专项演练。</li>
+</ul>
+</li>
+</ul>
+<h3 id="四、渗透测试工程师职业路径"><a href="#四、渗透测试工程师职业路径" class="headerlink" title="四、渗透测试工程师职业路径"></a><strong>四、渗透测试工程师职业路径</strong></h3><h4 id="1-核心技能"><a href="#1-核心技能" class="headerlink" title="1. 核心技能"></a><strong>1. 核心技能</strong></h4><ul>
+<li><strong>Web安全</strong>：XSS、SQL注入、文件上传等漏洞挖掘。</li>
+<li><strong>工具链</strong>：Kali Linux、Burp Suite、Nessus。</li>
+<li><strong>编程能力</strong>：Python、C语言、脚本编写。</li>
+</ul>
+<h4 id="2-学习资源"><a href="#2-学习资源" class="headerlink" title="2. 学习资源"></a><strong>2. 学习资源</strong></h4><ul>
+<li><strong>CTF竞赛</strong>：Web、Pwn、逆向、区块链等题型。</li>
+<li><strong>实战平台</strong>：Hack The Box、TryHackMe。</li>
+<li><strong>经典书籍</strong>：《Web前端黑客技术揭秘》、《白帽子讲Web安全》。</li>
+</ul>
+<h3 id="五、Web技术栈与安全问题"><a href="#五、Web技术栈与安全问题" class="headerlink" title="五、Web技术栈与安全问题"></a><strong>五、Web技术栈与安全问题</strong></h3><h4 id="1-Web发展阶段"><a href="#1-Web发展阶段" class="headerlink" title="1. Web发展阶段"></a><strong>1. Web发展阶段</strong></h4><ul>
+<li><strong>1.0</strong>：静态网页（HTML为主）。</li>
+<li><strong>2.0</strong>：动态交互（PHP、Java）。</li>
+<li><strong>3.0</strong>：去中心化（区块链、智能合约）。</li>
+</ul>
+<h4 id="2-关键组件"><a href="#2-关键组件" class="headerlink" title="2. 关键组件"></a><strong>2. 关键组件</strong></h4><ul>
+<li><strong>前端</strong>：HTML、CSS、JavaScript（易受XSS攻击）。</li>
+<li><strong>后端</strong>：PHP、Java、Node.js（需防御SQL注入）。</li>
+<li><strong>数据库</strong>：MySQL、Redis（防止未授权访问）。</li>
+<li><strong>中间件</strong>：Apache、Nginx（关注配置漏洞）。</li>
+</ul>
+<h3 id="明日学习计划"><a href="#明日学习计划" class="headerlink" title="明日学习计划"></a><strong>明日学习计划</strong></h3><ol>
+<li>深入学习XSS漏洞原理与防御。</li>
+<li>搭建本地测试环境（DVWA靶场）。</li>
+<li>了解SQL注入的分类与利用方法。</li>
+</ol>
+<ul>
 <li>前言：SQL注入（SQL Injection）是一种常见的攻击手段，攻击者通过在输入字段中插入恶意SQL代码，来操控数据库，从而获取敏感信息、篡改数据，甚至摧毁数据库。本次实验包括数字型注入和字符型注入，是SQL注入攻击中最基础且最常见的形式。通过联合查询（Union Query）合并多个SQL查询结果来获取未授权数据。</li>
 </ul>
 <h1 id="一、Sql注入原理"><a href="#一、Sql注入原理" class="headerlink" title="一、Sql注入原理"></a>一、Sql注入原理</h1><p>SQL 注入就是指 Web  应用程序对用户输入的数据合法性没有过滤或者是判断，攻击者可以在Web应用程序中事先定义好的查询语句的结尾上添加额外的SQL语句，在管理员不知情的情况下实现非法操作，以此来实现欺骗数据库服务器执行非授权的任意查询，从而进一步得到相应的数据信息。</p>

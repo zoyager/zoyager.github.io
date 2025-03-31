@@ -4,14 +4,18 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="&#39;实训记录3&#39;, 计算机视觉、QRCODE">
-    <meta name="description" content="Web安全学习日志 - 第三天今日学习目标
-掌握XSS漏洞的原理与分类
-熟悉Burp Suite工具的基础操作
-理解HTTP&amp;#x2F;HTTPS协议的安全差异
-学习XSS攻击的Payload构造与利用
+    <meta name="keywords" content="&#39;实训记录4&#39;, 计算机视觉、QRCODE">
+    <meta name="description" content="Web安全学习日志 - 第四天今日学习目标
+掌握文件操作漏洞的类型与危害
+理解文件上传漏洞的原理与利用
+熟悉Webshell的分类与管理工具
+学习绕过文件上传防御的技巧
+了解内网渗透的基础概念
 
-一、XSS漏洞深度解析1. 漏洞原">
+一、文件操作漏洞概述1. 漏洞类型
+
+
+类型">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -23,7 +27,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>&#39;实训记录3&#39; | zoyager的博客</title>
+    <title>&#39;实训记录4&#39; | zoyager的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -331,12 +335,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">&#39;实训记录3&#39;</h1>
+                    <h1 class="description center-align post-title">&#39;实训记录4&#39;</h1>
                 </div>
             </div>
         </div>
@@ -372,7 +376,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2025-03-26
+                    2025-03-27
                 </div>
                 
 
@@ -386,7 +390,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    687
+                    870
                 </div>
                 
 
@@ -411,140 +415,112 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Web安全学习日志-第三天"><a href="#Web安全学习日志-第三天" class="headerlink" title="Web安全学习日志 - 第三天"></a>Web安全学习日志 - 第三天</h1><h3 id="今日学习目标"><a href="#今日学习目标" class="headerlink" title="今日学习目标"></a><strong>今日学习目标</strong></h3><ol>
-<li>掌握XSS漏洞的原理与分类</li>
-<li>熟悉Burp Suite工具的基础操作</li>
-<li>理解HTTP&#x2F;HTTPS协议的安全差异</li>
-<li>学习XSS攻击的Payload构造与利用</li>
+                <h1 id="Web安全学习日志-第四天"><a href="#Web安全学习日志-第四天" class="headerlink" title="Web安全学习日志 - 第四天"></a>Web安全学习日志 - 第四天</h1><h3 id="今日学习目标"><a href="#今日学习目标" class="headerlink" title="今日学习目标"></a><strong>今日学习目标</strong></h3><ol>
+<li>掌握文件操作漏洞的类型与危害</li>
+<li>理解文件上传漏洞的原理与利用</li>
+<li>熟悉Webshell的分类与管理工具</li>
+<li>学习绕过文件上传防御的技巧</li>
+<li>了解内网渗透的基础概念</li>
 </ol>
-<h3 id="一、XSS漏洞深度解析"><a href="#一、XSS漏洞深度解析" class="headerlink" title="一、XSS漏洞深度解析"></a><strong>一、XSS漏洞深度解析</strong></h3><h4 id="1-漏洞原理"><a href="#1-漏洞原理" class="headerlink" title="1. 漏洞原理"></a><strong>1. 漏洞原理</strong></h4><ul>
-<li><strong>定义</strong>：跨站脚本攻击（Cross-Site Scripting），攻击者注入恶意JavaScript代码，突破同源策略。</li>
-<li><strong>核心条件</strong>：<ol>
-<li>用户输入的数据未被过滤直接输出到页面</li>
-<li>浏览器执行了恶意脚本（如<code>&lt;script&gt;</code>标签）</li>
-</ol>
-</li>
-</ul>
-<h4 id="2-漏洞分类"><a href="#2-漏洞分类" class="headerlink" title="2. 漏洞分类"></a><strong>2. 漏洞分类</strong></h4><table>
+<h3 id="一、文件操作漏洞概述"><a href="#一、文件操作漏洞概述" class="headerlink" title="一、文件操作漏洞概述"></a><strong>一、文件操作漏洞概述</strong></h3><h4 id="1-漏洞类型"><a href="#1-漏洞类型" class="headerlink" title="1. 漏洞类型"></a><strong>1. 漏洞类型</strong></h4><table>
 <thead>
 <tr>
 <th>类型</th>
-<th>触发条件</th>
-<th>危害程度</th>
+<th>说明</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>反射型</strong></td>
-<td>用户输入的数据在响应中直接输出（如搜索框结果）</td>
-<td>★★★☆</td>
+<td><strong>文件上传</strong></td>
+<td>上传恶意脚本文件（如<code>.php</code>）获取服务器权限</td>
 </tr>
 <tr>
-<td><strong>存储型</strong></td>
-<td>用户输入的数据存储在数据库，后续被其他用户访问（如论坛评论）</td>
-<td>★★★★★</td>
+<td><strong>文件读取</strong></td>
+<td>读取敏感文件（如<code>/etc/passwd</code>、数据库配置）</td>
 </tr>
 <tr>
-<td><strong>DOM型</strong></td>
-<td>JavaScript通过DOM操作动态生成内容（如<code>innerHTML</code>）</td>
-<td>★★★☆</td>
+<td><strong>文件下载</strong></td>
+<td>未授权下载敏感文件（如备份文件、日志文件）</td>
+</tr>
+<tr>
+<td><strong>文件包含</strong></td>
+<td>通过<code>include</code>&#x2F;<code>require</code>包含远程文件执行代码（如LFI&#x2F;RFI）</td>
 </tr>
 </tbody></table>
-<h4 id="3-攻击Payload示例"><a href="#3-攻击Payload示例" class="headerlink" title="3. 攻击Payload示例"></a><strong>3. 攻击Payload示例</strong></h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"><span class="title function_">alert</span>(<span class="string">&#x27;XSS&#x27;</span>);</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">&lt;svg/onload=alert(1)&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;javascript:alert(&#x27;XSS&#x27;);&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="二、Burp-Suite-基础操作"><a href="#二、Burp-Suite-基础操作" class="headerlink" title="二、Burp Suite 基础操作"></a><strong>二、Burp Suite 基础操作</strong></h3><h4 id="1-工具介绍"><a href="#1-工具介绍" class="headerlink" title="1. 工具介绍"></a><strong>1. 工具介绍</strong></h4><ul>
-<li><strong>功能</strong>：抓包、改包、漏洞扫描、暴力破解</li>
-<li><strong>版本</strong>：社区版（免费）、专业版（付费）</li>
-<li><strong>依赖</strong>：Java 环境，需配置 JRE 路径</li>
+<h4 id="2-攻击对象"><a href="#2-攻击对象" class="headerlink" title="2. 攻击对象"></a><strong>2. 攻击对象</strong></h4><ul>
+<li><strong>脚本文件</strong>：<code>.php</code>、<code>.jsp</code>、<code>.asp</code>（可执行恶意代码）</li>
+<li><strong>配置文件</strong>：<code>config.php</code>、<code>web.xml</code>（泄露数据库连接信息）</li>
+<li><strong>敏感文件</strong>：<code>robots.txt</code>、<code>.git</code>目录（暴露网站结构）</li>
 </ul>
-<h4 id="2-核心模块"><a href="#2-核心模块" class="headerlink" title="2. 核心模块"></a><strong>2. 核心模块</strong></h4><table>
+<h3 id="二、文件上传漏洞深度解析"><a href="#二、文件上传漏洞深度解析" class="headerlink" title="二、文件上传漏洞深度解析"></a><strong>二、文件上传漏洞深度解析</strong></h3><h4 id="1-漏洞原理"><a href="#1-漏洞原理" class="headerlink" title="1. 漏洞原理"></a><strong>1. 漏洞原理</strong></h4><ul>
+<li><strong>核心条件</strong>：服务器未对用户上传的文件类型、内容进行严格校验。</li>
+<li><strong>攻击目标</strong>：上传Webshell（网页木马）控制服务器。</li>
+</ul>
+<h4 id="2-Webshell分类"><a href="#2-Webshell分类" class="headerlink" title="2. Webshell分类"></a><strong>2. Webshell分类</strong></h4><table>
 <thead>
 <tr>
-<th>模块</th>
-<th>用途</th>
+<th>类型</th>
+<th>特点描述</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>Proxy</strong></td>
-<td>拦截 HTTP&#x2F;HTTPS 请求，修改数据包</td>
+<td><strong>小马</strong></td>
+<td>一句话木马（如<code>&lt;?php @eval($_POST[1]);?&gt;</code>），需配合管理工具使用</td>
 </tr>
 <tr>
-<td><strong>Scanner</strong></td>
-<td>自动化漏洞检测（如 XSS、SQL 注入）</td>
+<td><strong>大马</strong></td>
+<td>功能齐全（文件管理、命令执行），体积较大</td>
 </tr>
 <tr>
-<td><strong>Repeater</strong></td>
-<td>手动重发请求，调试 Payload</td>
-</tr>
-<tr>
-<td><strong>Intruder</strong></td>
-<td>暴力破解（如密码枚举、参数爆破）</td>
+<td><strong>内存马</strong></td>
+<td>无文件落地，驻留在内存中（隐蔽性强，查杀难度高）</td>
 </tr>
 </tbody></table>
-<h4 id="3-HTTPS-配置"><a href="#3-HTTPS-配置" class="headerlink" title="3. HTTPS 配置"></a><strong>3. HTTPS 配置</strong></h4><ol>
-<li><p><strong>生成证书</strong>：Burp 自带 CA 证书（<code>http://burp</code>下载）</p>
-</li>
-<li><p>浏览器导入</p>
-<p>：</p>
-<ul>
-<li>Chrome：设置 → 隐私与安全 → 安全 → 管理证书 → 导入</li>
-<li>Firefox：选项 → 隐私与安全 → 证书 → 查看证书 → 导入</li>
+<h4 id="3-管理工具"><a href="#3-管理工具" class="headerlink" title="3. 管理工具"></a><strong>3. 管理工具</strong></h4><ul>
+<li><strong>中国菜刀</strong>：经典Webshell管理工具，支持批量管理</li>
+<li><strong>蚁剑</strong>：国产工具，支持多种协议（HTTP&#x2F;HTTPS）</li>
+<li><strong>哥斯拉&#x2F;冰蝎</strong>：基于加密通信的Webshell（绕过WAF检测）</li>
 </ul>
-</li>
-</ol>
-<h3 id="三、HTTP-与-HTTPS-协议对比"><a href="#三、HTTP-与-HTTPS-协议对比" class="headerlink" title="三、HTTP 与 HTTPS 协议对比"></a><strong>三、HTTP 与 HTTPS 协议对比</strong></h3><h4 id="1-核心区别"><a href="#1-核心区别" class="headerlink" title="1. 核心区别"></a><strong>1. 核心区别</strong></h4><table>
+<h3 id="三、绕过文件上传防御的技巧"><a href="#三、绕过文件上传防御的技巧" class="headerlink" title="三、绕过文件上传防御的技巧"></a><strong>三、绕过文件上传防御的技巧</strong></h3><h4 id="1-客户端校验绕过"><a href="#1-客户端校验绕过" class="headerlink" title="1. 客户端校验绕过"></a><strong>1. 客户端校验绕过</strong></h4><ul>
+<li><strong>方法</strong>：禁用浏览器JavaScript或通过Burp修改请求包。</li>
+</ul>
+<h4 id="2-服务器端校验绕过"><a href="#2-服务器端校验绕过" class="headerlink" title="2. 服务器端校验绕过"></a><strong>2. 服务器端校验绕过</strong></h4><table>
 <thead>
 <tr>
-<th>协议</th>
-<th>安全性</th>
-<th>端口</th>
-<th>加密方式</th>
-<th>证书要求</th>
+<th>防御策略</th>
+<th>绕过方法</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>HTTP</td>
-<td>不安全</td>
-<td>80</td>
-<td>明文传输</td>
-<td>无</td>
+<td><strong>黑名单</strong></td>
+<td>大小写混淆（<code>PhP</code>）、双后缀（<code>test.php.jpg</code>）、特殊符号（<code>test.php::$DATA</code>）</td>
 </tr>
 <tr>
-<td>HTTPS</td>
-<td>安全</td>
-<td>443</td>
-<td>SSL&#x2F;TLS</td>
-<td>需要 CA 证书或自签名证书</td>
+<td><strong>白名单</strong></td>
+<td>修改文件头（如在<code>.php</code>文件前添加<code>GIF89a</code>）</td>
+</tr>
+<tr>
+<td><strong>文件内容检测</strong></td>
+<td>对Webshell代码进行编码（Base64、Unicode）</td>
 </tr>
 </tbody></table>
-<h4 id="2-证书作用"><a href="#2-证书作用" class="headerlink" title="2. 证书作用"></a><strong>2. 证书作用</strong></h4><ul>
-<li><strong>数据加密</strong>：防止中间人窃听</li>
-<li><strong>身份验证</strong>：验证服务器真实性</li>
-<li><strong>完整性校验</strong>：确保数据未被篡改</li>
-</ul>
-<h3 id="四、XSS-漏洞利用实战"><a href="#四、XSS-漏洞利用实战" class="headerlink" title="四、XSS 漏洞利用实战"></a><strong>四、XSS 漏洞利用实战</strong></h3><h4 id="1-反射型-XSS-测试"><a href="#1-反射型-XSS-测试" class="headerlink" title="1. 反射型 XSS 测试"></a><strong>1. 反射型 XSS 测试</strong></h4><ol>
-<li><strong>抓包</strong>：在 Burp Proxy 中拦截请求</li>
-<li><strong>插入 Payload</strong>：修改参数值为<code>&lt;script&gt;alert(1)&lt;/script&gt;</code></li>
-<li><strong>发送请求</strong>：观察页面是否弹出警示框</li>
+<h4 id="3-图片马制作"><a href="#3-图片马制作" class="headerlink" title="3. 图片马制作"></a><strong>3. 图片马制作</strong></h4><ol>
+<li><strong>记事本拼接法</strong>：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">   copy /b image.jpg + shell.php new.jpg</span><br><span class="line"></span><br><span class="line">1. 在线生成工具</span><br><span class="line">   - 使用`img2payload`等工具将恶意代码嵌入图片。</span><br><span class="line"></span><br><span class="line"><span class="comment">### **四、内网渗透基础**</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### **1. 边界服务器利用**</span></span><br><span class="line"></span><br><span class="line">- 获取权限</span><br><span class="line"></span><br><span class="line">  ：</span><br><span class="line"></span><br><span class="line">  - 通过 Web 漏洞（如文件上传、RCE）</span><br><span class="line">  - 社会工程学（钓鱼获取 VPN 凭证）</span><br><span class="line"></span><br><span class="line">- **跳板机**：利用边界服务器作为进入内网的跳板。</span><br><span class="line"></span><br><span class="line"><span class="comment">#### **2. 横向渗透目标**</span></span><br><span class="line"></span><br><span class="line">- **文件服务器**：窃取敏感文档（如`*.docx`、`*.pdf`）</span><br><span class="line">- **邮件服务器**：获取用户邮箱凭证</span><br><span class="line">- **域控服务器**：控制整个域环境（需高权限）</span><br><span class="line"></span><br><span class="line"><span class="comment">#### **3. 渗透路径**</span></span><br><span class="line"></span><br><span class="line">```plaintext</span><br><span class="line">互联网 → 边界服务器 → 内网服务器 → 核心系统</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h4 id="2-DOM-型-XSS-利用"><a href="#2-DOM-型-XSS-利用" class="headerlink" title="2. DOM 型 XSS 利用"></a><strong>2. DOM 型 XSS 利用</strong></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 漏洞代码示例（未过滤user参数）</span></span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;output&quot;</span>).<span class="property">innerHTML</span> = <span class="built_in">decodeURIComponent</span>(<span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">search</span>.<span class="title function_">split</span>(<span class="string">&#x27;user=&#x27;</span>)[<span class="number">1</span>]);</span><br></pre></td></tr></table></figure>
-
-<p><strong>Payload</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://test.com/page.html?user=&lt;script&gt;alert(1)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="五、总结与明日计划"><a href="#五、总结与明日计划" class="headerlink" title="五、总结与明日计划"></a><strong>五、总结与明日计划</strong></h3><h4 id="1-今日重点"><a href="#1-今日重点" class="headerlink" title="1. 今日重点"></a><strong>1. 今日重点</strong></h4><ul>
-<li>XSS 漏洞的三种类型与利用场景</li>
-<li>Burp Suite 的基础配置与抓包改包</li>
-<li>HTTP&#x2F;HTTPS 协议的安全差异</li>
+<h3 id="五、工具与实战"><a href="#五、工具与实战" class="headerlink" title="五、工具与实战"></a><strong>五、工具与实战</strong></h3><h4 id="1-漏洞利用工具"><a href="#1-漏洞利用工具" class="headerlink" title="1. 漏洞利用工具"></a><strong>1. 漏洞利用工具</strong></h4><ul>
+<li><strong>Webshell 管理</strong>：中国菜刀、蚁剑、冰蝎</li>
+<li><strong>文件检测</strong>：<code>exiftool</code>查看文件头信息</li>
+<li><strong>内网扫描</strong>：Nmap、Metasploit</li>
 </ul>
-<h1 id="web搭建"><a href="#web搭建" class="headerlink" title="web搭建"></a>web搭建</h1><p>安装小皮面板及phpcms</p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326151344245.png" alt="image-20250326151344201"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326150756199.png" alt="image-20250326150755978"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326150819832.png" alt="image-20250326150819415"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326151308587.png" alt="image-20250326151308512"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326151255854.png" alt="image-20250326151255778"></p>
-<p>burpsuite抓登录管理员包</p>
+<h4 id="2-靶场推荐"><a href="#2-靶场推荐" class="headerlink" title="2. 靶场推荐"></a><strong>2. 靶场推荐</strong></h4><ul>
+<li><strong>Upload-Labs</strong>：专业文件上传漏洞靶场</li>
+<li><strong>VulnHub</strong>：包含内网渗透场景的虚拟机镜像</li>
+</ul>
+<h3 id="六、总结与明日计划"><a href="#六、总结与明日计划" class="headerlink" title="六、总结与明日计划"></a><strong>六、总结与明日计划</strong></h3><h4 id="1-今日重点"><a href="#1-今日重点" class="headerlink" title="1. 今日重点"></a><strong>1. 今日重点</strong></h4><ul>
+<li>文件上传漏洞的利用流程与防御绕过</li>
+<li>Webshell 的分类与管理工具</li>
+<li>内网渗透的基础概念与路径</li>
+</ul>
+<p><strong>问题记录</strong>：需进一步理解内存马的工作原理与查杀方法<br><strong>参考资料</strong>：《Web 安全深度剖析》第 5 章（文件上传漏洞）</p>
 
                 
             </div>
@@ -571,7 +547,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://zoyager.github.io/2025/03/26/shi-xun-ji-lu-3/">https://zoyager.github.io/2025/03/26/shi-xun-ji-lu-3/</a>
+                    <a href="https://zoyager.github.io/2025/03/27/shi-xun-ji-lu-4/">https://zoyager.github.io/2025/03/27/shi-xun-ji-lu-4/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -689,13 +665,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2025/03/27/shi-xun-ji-lu-4/">
+                <a href="/2025/03/28/shi-xun-ji-lu-5/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="&#39;实训记录4&#39;">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="&#39;实训记录5&#39;">
                         
-                        <span class="card-title">&#39;实训记录4&#39;</span>
+                        <span class="card-title">&#39;实训记录5&#39;</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -706,7 +682,7 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2025-03-27
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-03-28
                         </span>
                         <span class="publish-author">
                             
@@ -726,13 +702,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2025/03/25/shi-xun-ji-lu-2/">
+                <a href="/2025/03/26/shi-xun-ji-lu-3/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="&#39;实训记录2&#39;">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="&#39;实训记录3&#39;">
                         
-                        <span class="card-title">&#39;实训记录2&#39;</span>
+                        <span class="card-title">&#39;实训记录3&#39;</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -743,7 +719,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-26
                             </span>
                         <span class="publish-author">
                             
@@ -752,14 +728,6 @@
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Sql%E6%B3%A8%E5%85%A5/">
-                        <span class="chip bg-color">Sql注入</span>
-                    </a>
-                    
                 </div>
                 
             </div>
