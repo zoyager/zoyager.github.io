@@ -386,7 +386,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    687
+                    848
                 </div>
                 
 
@@ -545,6 +545,30 @@
 <p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326151308587.png" alt="image-20250326151308512"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250326151255854.png" alt="image-20250326151255778"></p>
 <p>burpsuite抓登录管理员包</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250331095714390.png" alt="image-20250331095707130"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250331100008344.png" alt="image-20250331100008177"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250331100023021.png" alt="image-20250331100022842"></p>
+<h2 id="xss实操"><a href="#xss实操" class="headerlink" title="xss实操"></a>xss实操</h2><p>1.定位反射型XSS漏洞<br> 在Pikachu靶场中，首先识别带有URL参数的页面或表单提交页面。</p>
+<p>2.构造恶意payload</p>
+<script>alert(1)</script>
+
+<ol start="3">
+<li>提交恶意请求并验证漏洞</li>
+</ol>
+<p>在确认了目标参数或输入点后，将构造好的payload注入到URL中，提交请求并观察网页是否弹出警告框。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250331101413263.png" alt="image-20250331101413165"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250331101441764.png" alt="image-20250331101441695"></p>
+<h4 id="XSS盲打漏洞的利用"><a href="#XSS盲打漏洞的利用" class="headerlink" title="XSS盲打漏洞的利用"></a>XSS盲打漏洞的利用</h4><ol>
+<li>找到可提交数据的点</li>
+</ol>
+<p> 在靶场系统中寻找表单提交、搜索框等可输入数据的地方。</p>
+<ol start="2">
+<li>在线xss平台构造恶意代码。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250331101540436.png" alt="image-20250331101540400">在留言框中输入恶意代码。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250331101554222.png" alt="image-20250331101554193"></p>
+<p>Xss平台检测</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250331101614638.png" alt="image-20250331101614608"></p>
 
                 
             </div>
